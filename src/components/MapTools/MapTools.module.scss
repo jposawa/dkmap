@@ -1,0 +1,96 @@
+@import "@/mixins.scss";
+
+.toolsContainer {
+	@include absoluteElement();
+	@include dFlex(column, flex-end);
+	width: 20%;
+	height: min(85%, 33rem);
+	top: unset;
+	bottom: 0;
+	z-index: 100;
+	gap: 1rem;
+	flex-shrink: 0;
+	font-size: 1rem;
+	transition: left 200ms linear;
+
+	&.closed {
+		left: -20%;
+	}
+}
+
+.tools {
+	@include dFlex(column, flex-end);
+	width: 100%;
+	height: 100%;
+	gap: 1rem;
+	font-size: 1em;
+	margin-bottom: 4rem;
+}
+
+.toolOption {
+	@include dFlex(column);
+	width: 3rem;
+	border: none;
+	background: var(--colorMain);
+	box-shadow: 0 0 20rem #fff1 inset;
+	color: var(--colorWhite);
+	font-size: 0.8em;
+	cursor: pointer;
+
+	& > span {
+		font-size: 1.5em;
+	}
+
+	& > p {
+		text-align: center;
+	}
+}
+
+.toggleTools {
+	margin-bottom: 1rem;
+	left: 1rem;
+	position: fixed;
+}
+
+.info {
+	@include dFlex(column);
+	align-items: flex-end;
+	position: fixed;
+	top: 0;
+	right: 0;
+	background: #0009;
+	color: var(--colorWhite);
+	transition: top 200ms linear;
+
+	&.closed {
+		top: -10rem;
+	}
+}
+
+.centerMark {
+	--size: 0.5rem;
+
+	position: absolute;
+	width: var(--size);
+	height: var(--size);
+	top: calc((100% - var(--size)) / 2);
+	left: calc((100% - var(--size)) / 2);
+  background: #aa5200;
+	border-radius: 50%;
+	z-index: 1000;
+}
+
+@media screen and (min-width: $desktopBreakpoint) {
+	.toolsContainer {
+		width: 5%;
+		height: min(88%, 40rem);
+	}
+
+	.toolOption {
+		width: min(100%, 3.5rem);
+	}
+
+	.toggleTools {
+		left: min(6%, 6.75rem);
+	}
+}

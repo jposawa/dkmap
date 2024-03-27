@@ -1,0 +1,41 @@
+@import "@/mixins.scss";
+
+.menu {
+	@include dFlex(row, space-evenly);
+
+	background: var(--colorMain);
+	flex-shrink: none;
+	height: max(5%, 3rem);
+	padding: 0;
+}
+
+.menuItem {
+	@include dFlex(column);
+
+	width: 5rem;
+	height: 100%;
+	color: var(--colorWhite);
+	transition: background 300ms linear;
+
+	&:hover {
+		background: #000;
+	}
+
+	&.currentItem {
+		background: #0007;
+	}
+}
+
+@media screen and (min-width: $desktopBreakpoint) {
+	.menu {
+		flex-direction: column;
+		width: max(5%, 5rem);
+		height: 100%;
+    z-index: 150;
+	}
+
+	.menuItem {
+		width: 100%;
+		height: 5rem;
+	}
+}

@@ -1,0 +1,1 @@
+export const BASE_FB_DIR = "visaopolitica";
