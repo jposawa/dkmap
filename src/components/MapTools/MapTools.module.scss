@@ -2,11 +2,11 @@
 
 .toolsContainer {
 	@include absoluteElement();
-	@include dFlex(column, flex-end);
-	width: 20%;
-	height: min(85%, 33rem);
-	top: unset;
-	bottom: 0;
+	@include dFlex(column, flex-start);
+	width: auto;
+	height: 20%;
+	top: 0;
+  left: 3rem;
 	z-index: 100;
 	gap: 1rem;
 	flex-shrink: 0;
@@ -24,13 +24,12 @@
 	height: 100%;
 	gap: 1rem;
 	font-size: 1em;
-	margin-bottom: 4rem;
 }
 
 .toolOption {
 	@include dFlex(column);
 	width: 3rem;
-	border: none;
+	// border: none;
 	background: var(--colorMain);
 	box-shadow: 0 0 20rem #fff1 inset;
 	color: var(--colorWhite);
@@ -47,8 +46,8 @@
 }
 
 .toggleTools {
-	margin-bottom: 1rem;
-	left: 1rem;
+	top: 1rem;
+	left: 3rem;
 	position: fixed;
 }
 
@@ -80,17 +79,18 @@
 	z-index: 1000;
 }
 
+.cancelMode {
+  transform: rotate(45deg);
+}
+
 @media screen and (min-width: $desktopBreakpoint) {
 	.toolsContainer {
-		width: 5%;
-		height: min(88%, 40rem);
-	}
-
-	.toolOption {
-		width: min(100%, 3.5rem);
-	}
+    height: 30%;
+    left: 1rem;
+  }
 
 	.toggleTools {
-		left: min(6%, 6.75rem);
-	}
+    top: 7rem;
+    left: 1rem;
+  }
 }
