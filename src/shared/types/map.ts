@@ -5,5 +5,6 @@ export type Location = {
 	name: string;
 	position: LatLng;
 	description?: string;
-	faction?: string;
+	group?: string;
+  status?: string;
 };

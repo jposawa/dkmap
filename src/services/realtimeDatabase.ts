@@ -1,3 +1,4 @@
+import { cloneObj } from './../shared/utils/general';
 import { getDbPath } from "@/shared/utils";
 import { DatabaseReference, getDatabase, ref, update } from "firebase/database";
 
@@ -10,18 +11,33 @@ export const getFbDataRef = (tablePath?: string): DatabaseReference => {
 	return responseRef;
 };
 
-export const updateFbData = (newData: unknown, tablePath?: string) => {
-	const path = getDbPath(tablePath);
-	const updates: Record<string, unknown> = {};
-	const fbRef = getFbDataRef(tablePath);
 
-	updates[path] = newData;
+// TODO Improve it to become a more generic update method
+export const updateFbData = (
+	newData: unknown,
+	tablePath?: string,
+	currentData?: Record<string, unknown>
+) => {
+	const updates = cloneObj(currentData || {});
+	const fbRef = getFbDataRef(tablePath);
+	let response = true;
+
+	// updates[path] = newData;
+
+  console.table({
+    updates,
+    newData,
+  })
 
 	update(fbRef, updates)
-		.then(() => {
-			console.log("Update success");
+		.then((response) => {
+			console.log("Update success", response);
 		})
 		.catch((error) => {
 			console.error("Error on data update", error);
+
+			response = false;
 		});
+
+	return response;
 };

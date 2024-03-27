@@ -3,11 +3,12 @@ import React from "react";
 import styles from "./MapTools.module.scss";
 import { LatLng, Map } from "leaflet";
 import {
-	EyeOutlined,
-	EyeInvisibleOutlined,
 	BorderlessTableOutlined,
 	CompressOutlined,
+	PlusCircleOutlined,
 } from "@ant-design/icons";
+import { useRecoilState } from "recoil";
+import { editModeState } from "@/shared/state";
 
 type MapToolsProps = {
 	map: Map;
@@ -25,7 +26,7 @@ export const MapTools: React.FC<MapToolsProps> = ({
 		center: LatLng;
 	}>();
 	const [isToolsOpen, setIsToolsOpen] = React.useState(false);
-	const [isInfoVisible, setIsInfoVisible] = React.useState(true);
+	const [isEditMode, setIsEditMode] = useRecoilState(editModeState);
 
 	const toggleMapTools = () => {
 		setIsToolsOpen(!isToolsOpen);
@@ -78,39 +79,16 @@ export const MapTools: React.FC<MapToolsProps> = ({
 					<li
 						className={styles.toolOption}
 						onClick={() => {
-							setIsInfoVisible(!isInfoVisible);
+							setIsEditMode(!isEditMode);
 						}}
 					>
-						{isInfoVisible ? (
-							<>
-								<EyeOutlined />
-								<p>Info</p>
-							</>
-						) : (
-							<>
-								<EyeInvisibleOutlined />
-								<p>Sem info</p>
-							</>
-						)}
+						<PlusCircleOutlined
+							className={isEditMode ? styles.cancelMode : ""}
+						/>
+						<p>{isEditMode ? "Cancelar" : "Novo"}</p>
 					</li>
 				</ul>
-
-				<div
-					className={`${styles.info} ${!isInfoVisible ? styles.closed : ""}`}
-				>
-					<p>
-						<b>Lat:</b> {mapPosition?.center.lat}
-					</p>
-					<p>
-						<b>Lng:</b> {mapPosition?.center.lng}
-					</p>
-					<p>
-						<b>Zoom:</b> {mapPosition?.zoom}
-					</p>
-				</div>
 			</div>
-
-			{isInfoVisible && <span className={styles.centerMark} />}
 		</>
 	);
 };
