@@ -1,0 +1,58 @@
+@import "@/mixins.scss";
+
+.modalContainer {
+	@include absoluteElement();
+	@include dFlex();
+	z-index: 500;
+}
+
+.background {
+	@include absoluteElement();
+	background: #0004;
+}
+
+.modalBody {
+	@include dFlex();
+	width: min(80%, 30rem);
+	border-radius: 5px;
+	padding: 2rem;
+	background: #eee;
+	z-index: 2;
+
+	form {
+		@include dFlex();
+		flex-wrap: wrap;
+		gap: 2rem;
+
+		p {
+			@include dFlex(column);
+			align-items: flex-start;
+			flex-shrink: none;
+
+			&:has(textarea),
+			&:first-child {
+				width: 100%;
+				input {
+					width: 100%;
+				}
+			}
+
+			textarea {
+				--width: 105%;
+
+				width: var(--width);
+				height: 5rem;
+				margin-left: calc((100% - var(--width)) / 2);
+				resize: none;
+			}
+		}
+
+    button {
+      background: #369;
+      color: #eee;
+      font-size: 1.6rem;
+      padding: 0.3rem;
+      border-radius: 5px;
+    }
+	}
+}
