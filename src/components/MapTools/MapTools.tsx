@@ -11,6 +11,7 @@ import { useRecoilState } from "recoil";
 import { currentMapState, editModeState } from "@/shared/state";
 import { MapKey } from "@/shared/types";
 import { MAP_RELATION } from "@/shared/constants";
+import { CursorCoordinates } from "..";
 
 type MapToolsProps = {
 	map: Map;
@@ -30,6 +31,7 @@ export const MapTools: React.FC<MapToolsProps> = ({
 	const [isToolsOpen, setIsToolsOpen] = React.useState(false);
 	const [isEditMode, setIsEditMode] = useRecoilState(editModeState);
 	const [currentMap, setCurrentMap] = useRecoilState(currentMapState);
+	const [cursorPosition, setCursorPosition] = React.useState<LatLng>();
 
 	const toggleMapTools = () => {
 		setIsToolsOpen(!isToolsOpen);
@@ -55,6 +57,11 @@ export const MapTools: React.FC<MapToolsProps> = ({
 					} as LatLng,
 					zoom,
 				});
+			});
+
+			map.on("mousemove", (event) => {
+        // console.log(event.target);
+				setCursorPosition(event.latlng);
 			});
 
 			setMapPosition({
@@ -109,6 +116,10 @@ export const MapTools: React.FC<MapToolsProps> = ({
 					</li>
 				</ul>
 			</div>
+
+			{!!cursorPosition && (
+				<CursorCoordinates mapCoordinates={cursorPosition} />
+			)}
 		</>
 	);
 };

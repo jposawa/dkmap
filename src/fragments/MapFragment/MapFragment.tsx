@@ -73,9 +73,7 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 		() => (
 			<section className={styles.mapFragment}>
 				<MapContainer
-					className={`${styles.mapContainer} ${className} ${
-						isEditMode ? styles.editMode : ""
-					}`}
+					className={`${styles.mapContainer} ${className}}`}
 					center={[0, 0]}
 					zoom={1}
 					minZoom={1.57}
@@ -89,6 +87,7 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 					zoomDelta={0.01}
 				>
 					<MapEvents
+						className={isEditMode ? styles.editMode : ""}
 						selectedLocation={selectedLocation}
 						setSelectedLocation={setSelectedLocation}
 					/>
@@ -129,6 +128,14 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 			</section>
 		),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[className, currentMapKey, locations, map, selectedLocation, style]
+		[
+			className,
+			currentMapKey,
+			locations,
+			map,
+			selectedLocation,
+			style,
+			isEditMode,
+		]
 	);
 };
