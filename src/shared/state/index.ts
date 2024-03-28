@@ -32,3 +32,18 @@ export const currentMapState = atom<MapKey>({
 	key: withNamespace("currentMap"),
 	default: "voador",
 });
+
+export const screenCursorInfoState = atom<{
+	posX: number;
+	posY: number;
+	rawPosX: number;
+	rawPosY: number;
+}>({
+	key: withNamespace("screenCursorInfo"),
+	default: {
+		posX: 0,
+		posY: 0,
+		rawPosX: 0,
+		rawPosY: 0,
+	},
+});

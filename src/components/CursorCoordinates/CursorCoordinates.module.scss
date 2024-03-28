@@ -1,0 +1,17 @@
+@import "@/mixins.scss";
+
+.coordinatesContainer {
+  --leftPos: var(--left, auto);
+  --topPos: var(--top, auto);
+
+  @include absoluteElement();
+  @include dFlex();
+  gap: 1rem;
+  width: auto;
+  height: auto;
+  top: var(--topPos);
+  left: var(--leftPos);
+  background: #0008;
+  color: #eee;
+  z-index: 6000;
+}

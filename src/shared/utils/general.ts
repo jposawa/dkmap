@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NAMESPACE } from "../constants/general";
+import { SideNumber } from "../types";
 
 /**
  * Cria um clone do objeto (Ou array) independente do original
@@ -146,3 +147,25 @@ export const groupData = (
 
 export const withNamespace = (rawValue: string): string =>
 	`${NAMESPACE}@${rawValue}`;
+
+/**
+ * Calculates if provided number, in relation from 0 to {maxValue}, is before, after or in middle point
+ * If -1 it's before half way, 1 is after half and 0 is exactly in the middle
+ *
+ * @param {number} currentValue tested number
+ * @param {number} maxValue maximum (inclusive) value
+ *
+ * @returns {SideNumber} -1 | 0 | 1
+ */
+export const getSideNumber = (
+	currentValue: number,
+	maxValue: number
+): SideNumber => {
+	const middlePoint = maxValue / 2;
+	const rawResult = currentValue - middlePoint;
+	const divider = rawResult === 0 ? 1 : Math.abs(rawResult);
+
+	const convertedResult = rawResult / divider;
+
+	return convertedResult as SideNumber;
+};
