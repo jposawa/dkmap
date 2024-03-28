@@ -1,21 +1,21 @@
 import React from "react";
 import { Location } from "@/shared/types";
-import {
-	CircleMarker,
-	ImageOverlay,
-	MapContainer,
-	Popup,
-} from "react-leaflet";
+import { CircleMarker, ImageOverlay, MapContainer, Popup } from "react-leaflet";
 // import { useSetRecoilState } from "recoil";
 // import { mapCenterState } from "@/shared/state";
 import { CRS, LatLng, LatLngBoundsExpression, Map } from "leaflet";
 import { DEBUG_MODE } from "@/shared/constants/general";
 import { LocationModal, MapEvents, MapTools } from "@/components";
-import { useRecoilValue } from "recoil";
-import { editModeState, locationsListState } from "@/shared/state";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+	currentMapState,
+	editModeState,
+	locationsListState,
+} from "@/shared/state";
 import { useLocations } from "@/shared/hooks/useLocations";
 
 import styles from "./MapFragment.module.scss";
+import { MAP_RELATION } from "@/shared/constants";
 
 type MapFragmentProps = {
 	className?: string;
@@ -28,33 +28,31 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 	className = "",
 	style = {},
 }) => {
-  const isEditMode = useRecoilValue(editModeState);
+	const isEditMode = useRecoilValue(editModeState);
 	const [map, setMap] = React.useState<Map | null>(null);
 	const [selectedLocation, setSelectedLocation] =
 		React.useState<LatLng | null>();
 	const [locations, setLocations] = React.useState<Location[]>([]);
 	const { isLoading, getLocationsList, setIsLoading } = useLocations();
-	const locationsList = useRecoilValue(locationsListState);
+	const [locationsList, setLocationsList] = useRecoilState(locationsListState);
 	const bounds: LatLngBoundsExpression = [
 		[-125, -250],
 		[125, 250],
 	];
+	const currentMapKey = useRecoilValue(currentMapState);
 
 	React.useEffect(() => {
 		const _locations = Object.values(locationsList);
 
 		if (!_locations.length) {
 			if (!isLoading) {
-				getLocationsList();
+				getLocationsList(currentMapKey);
 			}
 		} else {
-			setLocations(() => {
-				setIsLoading(false);
-				return _locations;
-			});
+			setIsLoading(false);
+			setLocations(_locations);
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isLoading, locationsList]);
+	}, [isLoading, locationsList, currentMapKey, getLocationsList, setIsLoading]);
 
 	React.useEffect(() => {
 		if (map) {
@@ -63,11 +61,21 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [map]);
 
+	React.useEffect(() => {
+		setIsLoading(false);
+		setLocationsList(() => {
+			setLocations([]);
+			return {};
+		});
+	}, [currentMapKey, setIsLoading, setLocationsList]);
+
 	return React.useMemo(
 		() => (
 			<section className={styles.mapFragment}>
 				<MapContainer
-					className={`${styles.mapContainer} ${className} ${isEditMode ? styles.editMode : ""}`}
+					className={`${styles.mapContainer} ${className} ${
+						isEditMode ? styles.editMode : ""
+					}`}
 					center={[0, 0]}
 					zoom={1}
 					minZoom={1.57}
@@ -84,17 +92,17 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 						selectedLocation={selectedLocation}
 						setSelectedLocation={setSelectedLocation}
 					/>
-					<ImageOverlay url="/mapa/mapaIlhaFlutuante.png" bounds={bounds} />
+					<ImageOverlay
+						url={`/mapa/${MAP_RELATION[currentMapKey]}.png`}
+						bounds={bounds}
+					/>
 
 					{locations.map((location: Location) => {
 						return (
 							<CircleMarker
 								key={location.key}
-                radius={7}
-								center={[
-									location.position.lat * 1,
-									location.position.lng * 1,
-								]}
+								radius={7}
+								center={[location.position.lat * 1, location.position.lng * 1]}
 							>
 								<Popup>
 									<h3>{location.name}</h3>
@@ -109,27 +117,6 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 								</Popup>
 							</CircleMarker>
 						);
-						// return (
-						// 	<CircleMarker
-						// 		key={index}
-						// 		fillOpacity={1}
-						// 		stroke={false}
-						// 		fillColor={"#369"}
-						// 		center={[location.position.lat, location.position.lng]}
-						// 	>
-						// 		<Popup>
-						// 			<h3>{location.name}</h3>
-						// 			<span className={styles.locationSummary}>
-						// 				<p>{location.group}</p>
-						// 				<p>{location.status}</p>
-						// 			</span>
-
-						// 			<span className={styles.locationDescription}>
-						// 				{location.description}
-						// 			</span>
-						// 		</Popup>
-						// 	</CircleMarker>
-						// );
 					})}
 				</MapContainer>
 
@@ -142,6 +129,6 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 			</section>
 		),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[className, map, style]
+		[className, currentMapKey, locations, map, selectedLocation, style]
 	);
 };

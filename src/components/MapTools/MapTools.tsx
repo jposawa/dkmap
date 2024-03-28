@@ -8,7 +8,9 @@ import {
 	PlusCircleOutlined,
 } from "@ant-design/icons";
 import { useRecoilState } from "recoil";
-import { editModeState } from "@/shared/state";
+import { currentMapState, editModeState } from "@/shared/state";
+import { MapKey } from "@/shared/types";
+import { MAP_RELATION } from "@/shared/constants";
 
 type MapToolsProps = {
 	map: Map;
@@ -27,10 +29,18 @@ export const MapTools: React.FC<MapToolsProps> = ({
 	}>();
 	const [isToolsOpen, setIsToolsOpen] = React.useState(false);
 	const [isEditMode, setIsEditMode] = useRecoilState(editModeState);
+	const [currentMap, setCurrentMap] = useRecoilState(currentMapState);
 
 	const toggleMapTools = () => {
 		setIsToolsOpen(!isToolsOpen);
 	};
+
+	const handleChange = React.useCallback(
+		(event: React.ChangeEvent<HTMLSelectElement>) => {
+			setCurrentMap(event.target.value as MapKey);
+		},
+		[setCurrentMap]
+	);
 
 	React.useEffect(() => {
 		if (map && !mapPosition?.zoom) {
@@ -72,10 +82,6 @@ export const MapTools: React.FC<MapToolsProps> = ({
 				</button>
 
 				<ul className={styles.tools}>
-					{/* <li className={styles.closeTools} onClick={toggleMapTools}>
-					&times;
-				</li> */}
-
 					<li
 						className={styles.toolOption}
 						onClick={() => {
@@ -86,6 +92,20 @@ export const MapTools: React.FC<MapToolsProps> = ({
 							className={isEditMode ? styles.cancelMode : ""}
 						/>
 						<p>{isEditMode ? "Cancelar" : "Novo"}</p>
+					</li>
+
+					<li>
+						<select
+							defaultValue={currentMap}
+							title="Current map"
+							onChange={handleChange}
+						>
+							{Object.keys(MAP_RELATION).map((mapName) => (
+								<option key={mapName} value={mapName}>
+									{mapName}
+								</option>
+							))}
+						</select>
 					</li>
 				</ul>
 			</div>

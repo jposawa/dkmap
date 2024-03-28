@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 import { withNamespace } from "../utils";
-import { Location } from "../types";
+import { Location, MapKey } from "../types";
 import { FirebaseApp } from "firebase/app";
 
 export const themeState = atom<string>({
@@ -26,4 +26,9 @@ export const firebaseAppState = atom<FirebaseApp | null>({
 export const editModeState = atom<boolean>({
 	key: withNamespace("editMode"),
 	default: false,
+});
+
+export const currentMapState = atom<MapKey>({
+	key: withNamespace("currentMap"),
+	default: "voador",
 });
