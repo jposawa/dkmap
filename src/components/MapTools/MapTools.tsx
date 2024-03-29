@@ -34,6 +34,10 @@ export const MapTools: React.FC<MapToolsProps> = ({
 	const [cursorPosition, setCursorPosition] = React.useState<LatLng>();
 
 	const toggleMapTools = () => {
+		if (isToolsOpen) {
+			setIsEditMode(false);
+		}
+
 		setIsToolsOpen(!isToolsOpen);
 	};
 
