@@ -2,7 +2,7 @@ import React from "react";
 
 import styles from "./CursorCoordinates.module.scss";
 import { useRecoilValue } from "recoil";
-import { editModeState } from "@/shared/state";
+import { editModeState, selectedLocationState } from "@/shared/state";
 import { getSideNumber } from "@/shared/utils";
 import { LatLng } from "leaflet";
 
@@ -22,6 +22,7 @@ export const CursorCoordinates: React.FC<CursorCoordinatesProps> = ({
 	className = "",
 	style = {},
 }) => {
+	const selectedLocation = useRecoilValue(selectedLocationState);
 	const isEditMode = useRecoilValue(editModeState);
 	const [cursorInfo, setCursorInfo] = React.useState({
 		posX: 0,
@@ -38,9 +39,9 @@ export const CursorCoordinates: React.FC<CursorCoordinatesProps> = ({
 		let offsetX = rawOffsetX ? rawOffsetX : BASE_OFFSET.x;
 		const offsetY = rawOffsetY ? rawOffsetY : BASE_OFFSET.y;
 
-    if (offsetX < 0) {
-      offsetX *= 8;
-    }
+		if (offsetX < 0) {
+			offsetX *= 8;
+		}
 		setCursorInfo({
 			rawPosX: clientX,
 			rawPosY: clientY,
@@ -57,7 +58,7 @@ export const CursorCoordinates: React.FC<CursorCoordinatesProps> = ({
 		};
 	}, []);
 
-	if (!isEditMode || !mapCoordinates.lat) {
+	if (!isEditMode || !mapCoordinates.lat || !!selectedLocation) {
 		return null;
 	}
 

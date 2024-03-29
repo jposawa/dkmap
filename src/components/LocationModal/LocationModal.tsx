@@ -4,31 +4,39 @@ import styles from "./LocationModal.module.scss";
 import { LatLng } from "leaflet";
 import { Location } from "@/shared/types";
 import { useLocations } from "@/shared/hooks/useLocations";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { currentMapState, editModeState } from "@/shared/state";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+	currentMapState,
+	editModeState,
+	selectedLocationState,
+} from "@/shared/state";
 
 export type LocationModalProps = {
-	coordinates: LatLng | null | undefined;
-	updateCoordinates: (param1?: LatLng) => void;
 	className?: string;
 	style?: React.CSSProperties;
 };
 
 export const LocationModal: React.FC<LocationModalProps> = ({
-	coordinates,
-	updateCoordinates,
 	className = "",
 	style = {},
 }) => {
+	const [coordinates, updateCoordinates] = useRecoilState(
+		selectedLocationState
+	);
 	const currentMap = useRecoilValue(currentMapState);
 	const formRef = React.useRef<HTMLFormElement>(null);
 	const setIsEditMode = useSetRecoilState(editModeState);
 	const { updateLocations } = useLocations();
-	const handleClose = React.useCallback(() => {
-		formRef?.current?.reset();
-		setIsEditMode(false);
-		updateCoordinates();
-	}, [setIsEditMode, updateCoordinates]);
+
+	const handleClose = React.useCallback(
+		(shouldExitEditMode = false) => {
+			formRef?.current?.reset();
+			setIsEditMode(!shouldExitEditMode);
+
+			updateCoordinates(null);
+		},
+		[setIsEditMode, updateCoordinates]
+	);
 
 	const currentCoordinates = React.useMemo(
 		() => coordinates || ({} as LatLng),
@@ -52,17 +60,17 @@ export const LocationModal: React.FC<LocationModalProps> = ({
 		newPlace.key = `${newPlace.name}(${code})`;
 
 		if (updateLocations(newPlace)) {
-			handleClose();
+			handleClose(true);
 		}
 	};
 
-	if (!currentCoordinates.lat) {
+	if (!coordinates) {
 		return null;
 	}
 
 	return (
 		<div className={styles.modalContainer}>
-			<span className={styles.background} onClick={handleClose} />
+			<span className={styles.background} onClick={() => handleClose()} />
 
 			<div className={`${styles.modalBody} ${className}`} style={style}>
 				<form onSubmit={handleSubmit} ref={formRef}>

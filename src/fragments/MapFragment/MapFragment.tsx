@@ -3,7 +3,7 @@ import { Location } from "@/shared/types";
 import { CircleMarker, ImageOverlay, MapContainer, Popup } from "react-leaflet";
 // import { useSetRecoilState } from "recoil";
 // import { mapCenterState } from "@/shared/state";
-import { CRS, LatLng, LatLngBoundsExpression, Map } from "leaflet";
+import { CRS, LatLngBoundsExpression, Map } from "leaflet";
 import { DEBUG_MODE } from "@/shared/constants/general";
 import { LocationModal, MapEvents, MapTools } from "@/components";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -22,16 +22,12 @@ type MapFragmentProps = {
 	style?: React.CSSProperties;
 };
 
-// const offset = [125/125, 250];
-
 export const MapFragment: React.FC<MapFragmentProps> = ({
 	className = "",
 	style = {},
 }) => {
 	const isEditMode = useRecoilValue(editModeState);
 	const [map, setMap] = React.useState<Map | null>(null);
-	const [selectedLocation, setSelectedLocation] =
-		React.useState<LatLng | null>();
 	const [locations, setLocations] = React.useState<Location[]>([]);
 	const { isLoading, getLocationsList, setIsLoading } = useLocations();
 	const [locationsList, setLocationsList] = useRecoilState(locationsListState);
@@ -86,11 +82,7 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 					zoomSnap={0.01}
 					zoomDelta={0.01}
 				>
-					<MapEvents
-						className={isEditMode ? styles.editMode : ""}
-						selectedLocation={selectedLocation}
-						setSelectedLocation={setSelectedLocation}
-					/>
+					<MapEvents className={isEditMode ? styles.editMode : ""} />
 					<ImageOverlay
 						url={`/mapa/${MAP_RELATION[currentMapKey]}.png`}
 						bounds={bounds}
@@ -121,21 +113,10 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 
 				{DEBUG_MODE && map && <MapTools map={map} />}
 
-				<LocationModal
-					coordinates={selectedLocation}
-					updateCoordinates={setSelectedLocation}
-				/>
+				<LocationModal />
 			</section>
 		),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[
-			className,
-			currentMapKey,
-			locations,
-			map,
-			selectedLocation,
-			style,
-			isEditMode,
-		]
+		[className, currentMapKey, locations, map, style, isEditMode]
 	);
 };

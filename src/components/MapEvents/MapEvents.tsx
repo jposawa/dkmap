@@ -1,28 +1,22 @@
-import { editModeState } from "@/shared/state"
-import { LatLng } from "leaflet";
+import { editModeState, selectedLocationState } from "@/shared/state";
 import { useMapEvents } from "react-leaflet";
-import { useRecoilValue } from "recoil"
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 export type MapEventsProps = {
-  selectedLocation: LatLng | null | undefined;
-  setSelectedLocation: (param?: LatLng) => void;
-  className?: string;
+	className?: string;
 };
 
-export const MapEvents: React.FC<MapEventsProps> = ({
-  // selectedLocation,
-  setSelectedLocation,
-  className = "",
-}) => {
-  const isEditMode = useRecoilValue(editModeState);
+export const MapEvents: React.FC<MapEventsProps> = ({ className = "" }) => {
+	const isEditMode = useRecoilValue(editModeState);
+	const setSelectedLocation = useSetRecoilState(selectedLocationState);
 
-  useMapEvents({
-    click(event) {
-      if (isEditMode) {
-        setSelectedLocation(event.latlng);
-      }
-    }
-  })
+	useMapEvents({
+		click(event) {
+			if (isEditMode) {
+				setSelectedLocation(event.latlng);
+			}
+		},
+	});
 
-  return <span className={className} />
-}
+	return <span className={className} />;
+};

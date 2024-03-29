@@ -60,7 +60,7 @@ export const MapTools: React.FC<MapToolsProps> = ({
 			});
 
 			map.on("mousemove", (event) => {
-        // console.log(event.target);
+				// console.log(event.target);
 				setCursorPosition(event.latlng);
 			});
 
@@ -69,6 +69,7 @@ export const MapTools: React.FC<MapToolsProps> = ({
 				zoom: map.getZoom(),
 			});
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [map, mapPosition]);
 
 	return (

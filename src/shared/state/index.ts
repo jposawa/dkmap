@@ -2,6 +2,7 @@ import { atom } from "recoil";
 import { withNamespace } from "../utils";
 import { Location, MapKey } from "../types";
 import { FirebaseApp } from "firebase/app";
+import { LatLng } from "leaflet";
 
 export const themeState = atom<string>({
 	key: withNamespace("theme"),
@@ -46,4 +47,9 @@ export const screenCursorInfoState = atom<{
 		rawPosX: 0,
 		rawPosY: 0,
 	},
+});
+
+export const selectedLocationState = atom<LatLng | null | undefined>({
+	key: withNamespace("selectedLocation"),
+	default: undefined,
 });

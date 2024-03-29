@@ -8,6 +8,7 @@
 
 .background {
 	@include absoluteElement();
+  cursor: pointer;
 	background: #0004;
 }
 
