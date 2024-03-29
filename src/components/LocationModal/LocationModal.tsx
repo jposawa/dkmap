@@ -3,7 +3,7 @@ import React from "react";
 import styles from "./LocationModal.module.scss";
 import { LatLng } from "leaflet";
 import { Location } from "@/shared/types";
-import { useLocations } from "@/shared/hooks/useLocations";
+import { useLocations } from "@/shared/hooks";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
 	currentMapState,

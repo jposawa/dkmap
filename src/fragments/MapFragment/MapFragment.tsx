@@ -12,7 +12,7 @@ import {
 	editModeState,
 	locationsListState,
 } from "@/shared/state";
-import { useLocations } from "@/shared/hooks/useLocations";
+import { useLocations } from "@/shared/hooks";
 
 import styles from "./MapFragment.module.scss";
 import { MAP_RELATION } from "@/shared/constants";

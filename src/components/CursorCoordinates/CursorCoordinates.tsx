@@ -5,6 +5,7 @@ import { useRecoilValue } from "recoil";
 import { editModeState, selectedLocationState } from "@/shared/state";
 import { getSideNumber } from "@/shared/utils";
 import { LatLng } from "leaflet";
+import { useMobile } from "@/shared/hooks";
 
 export type CursorCoordinatesProps = {
 	mapCoordinates: LatLng;
@@ -24,6 +25,7 @@ export const CursorCoordinates: React.FC<CursorCoordinatesProps> = ({
 }) => {
 	const selectedLocation = useRecoilValue(selectedLocationState);
 	const isEditMode = useRecoilValue(editModeState);
+	const { isMobile } = useMobile();
 	const [cursorInfo, setCursorInfo] = React.useState({
 		posX: 0,
 		posY: 0,
@@ -58,7 +60,7 @@ export const CursorCoordinates: React.FC<CursorCoordinatesProps> = ({
 		};
 	}, []);
 
-	if (!isEditMode || !mapCoordinates.lat || !!selectedLocation) {
+	if (!isEditMode || !mapCoordinates.lat || !!selectedLocation || isMobile) {
 		return null;
 	}
 

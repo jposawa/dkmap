@@ -25,6 +25,10 @@
 	height: 100%;
 	gap: 1rem;
 	font-size: 1em;
+
+  select {
+    font-size: 1.4rem;
+  }
 }
 
 .toolOption {
@@ -86,7 +90,7 @@
 
 @media screen and (min-width: $desktopBreakpoint) {
 	.toolsContainer {
-    height: 35%;
+    height: 15rem;
     left: 1rem;
   }
 
