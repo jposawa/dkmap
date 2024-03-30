@@ -32,8 +32,8 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 	const { isLoading, getLocationsList, setIsLoading } = useLocations();
 	const [locationsList, setLocationsList] = useRecoilState(locationsListState);
 	const bounds: LatLngBoundsExpression = [
-		[-130, -250],
-		[130, 250],
+		[-120, -250],
+		[120, 250],
 	];
 	const currentMapKey = useRecoilValue(currentMapState);
 
