@@ -15,7 +15,11 @@ import {
 import { useLocations } from "@/shared/hooks";
 
 import styles from "./MapFragment.module.scss";
-import { MAP_RELATION } from "@/shared/constants";
+import {
+	LOCATION_STATUS,
+	LOCATION_TYPE,
+	MAP_RELATION,
+} from "@/shared/constants";
 
 type MapFragmentProps = {
 	className?: string;
@@ -84,7 +88,7 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 				>
 					<MapEvents className={isEditMode ? styles.editMode : ""} />
 					<ImageOverlay
-						url={`/mapa/${MAP_RELATION[currentMapKey]}.png`}
+						url={`/mapa/${MAP_RELATION[currentMapKey].fileName}.${MAP_RELATION[currentMapKey].extension}`}
 						bounds={bounds}
 					/>
 
@@ -97,13 +101,17 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 							>
 								<Popup>
 									<h3>{location.name}</h3>
+									<p>{LOCATION_TYPE[location.locationType].displayText}</p>
+
 									<span className={styles.locationSummary}>
 										<p>{location.group}</p>
-										<p>{location.status}</p>
+										{location.status && (
+											<p>{LOCATION_STATUS[location.status].displayText}</p>
+										)}
 									</span>
 
 									<span className={styles.locationDescription}>
-										{location.description}
+										<p>{location.description}</p>
 									</span>
 								</Popup>
 							</CircleMarker>
