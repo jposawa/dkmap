@@ -29,6 +29,7 @@
 			@include dFlex(column);
 			align-items: flex-start;
 			flex-shrink: none;
+      width: 27%;
 
 			&:has(textarea),
 			&:first-child {
@@ -39,13 +40,16 @@
 			}
 
 			textarea {
-				--width: 105%;
+				--width: 100%;
 
 				width: var(--width);
 				height: 5rem;
-				margin-left: calc((100% - var(--width)) / 2);
 				resize: none;
 			}
+
+      input, select {
+        width: 100%;
+      }
 		}
 
     button {

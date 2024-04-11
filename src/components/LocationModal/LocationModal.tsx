@@ -2,7 +2,7 @@ import React from "react";
 
 import styles from "./LocationModal.module.scss";
 import { LatLng } from "leaflet";
-import { Location } from "@/shared/types";
+import { Location, LocationStatusKey, LocationTypeKey } from "@/shared/types";
 import { useLocations } from "@/shared/hooks";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -10,6 +10,7 @@ import {
 	editModeState,
 	selectedLocationState,
 } from "@/shared/state";
+import { LOCATION_STATUS, LOCATION_TYPE } from "@/shared/constants";
 
 export type LocationModalProps = {
 	className?: string;
@@ -46,10 +47,12 @@ export const LocationModal: React.FC<LocationModalProps> = ({
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const { currentTarget: form } = event;
+		const locationTypeKey = form.locationTypeKey.value as LocationTypeKey;
 		const newPlace: Location = {
 			key: "",
 			name: form.placeName.value,
 			mapKey: currentMap,
+			locationType: locationTypeKey,
 			description: form.description.value,
 			group: form.group.value,
 			status: form.status.value,
@@ -85,13 +88,30 @@ export const LocationModal: React.FC<LocationModalProps> = ({
 					</p>
 
 					<p>
+						<label htmlFor="locationTypeKey">Tipo</label>
+						<select id="locationTypeKey" name="locationTypeKey">
+							{Object.keys(LOCATION_TYPE).map((type) => (
+								<option key={type} value={type}>
+									{LOCATION_TYPE[type as LocationTypeKey].displayText}
+								</option>
+							))}
+						</select>
+					</p>
+
+					<p>
 						<label htmlFor="group">Grupo</label>
 						<input id="group" name="group" placeholder="Grupo pertencente" />
 					</p>
 
 					<p>
 						<label htmlFor="status">Status</label>
-						<input id="status" name="status" placeholder="Estado atual" />
+						<select id="status" name="status" defaultValue="neutral">
+							{Object.keys(LOCATION_STATUS).map((status) => (
+								<option key={status} value={status}>
+									{LOCATION_STATUS[status as LocationStatusKey].displayText}
+								</option>
+							))}
+						</select>
 					</p>
 
 					<p>

@@ -114,7 +114,7 @@ export const MapTools: React.FC<MapToolsProps> = ({
 						>
 							{Object.keys(MAP_RELATION).map((mapName) => (
 								<option key={mapName} value={mapName}>
-									{mapName}
+									{MAP_RELATION[mapName as MapKey].displayName}
 								</option>
 							))}
 						</select>
