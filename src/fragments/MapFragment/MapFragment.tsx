@@ -15,11 +15,7 @@ import {
 import { useLocations } from "@/shared/hooks";
 
 import styles from "./MapFragment.module.scss";
-import {
-	LOCATION_STATUS,
-	LOCATION_TYPE,
-	MAP_RELATION,
-} from "@/shared/constants";
+import { MAP_RELATION } from "@/shared/constants";
 
 type MapFragmentProps = {
 	className?: string;
