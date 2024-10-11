@@ -15,7 +15,11 @@ import {
 import { useLocations } from "@/shared/hooks";
 
 import styles from "./MapFragment.module.scss";
-import { MAP_RELATION } from "@/shared/constants";
+import {
+	LOCATION_STATUS,
+	LOCATION_TYPE,
+	MAP_RELATION,
+} from "@/shared/constants";
 
 type MapFragmentProps = {
 	className?: string;
@@ -32,8 +36,8 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 	const { isLoading, getLocationsList, setIsLoading } = useLocations();
 	const [locationsList, setLocationsList] = useRecoilState(locationsListState);
 	const bounds: LatLngBoundsExpression = [
-		[-200, -350],
-		[200, 350],
+		[-120, -250],
+		[120, 250],
 	];
 	const currentMapKey = useRecoilValue(currentMapState);
 
@@ -95,15 +99,19 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 								radius={7}
 								center={[location.position.lat * 1, location.position.lng * 1]}
 							>
-								<Popup keepInView={true}>
-									<h3>{location?.name}</h3>
+								<Popup>
+									<h3>{location.name}</h3>
+									<p>{LOCATION_TYPE[location.locationType].displayText}</p>
 
 									<span className={styles.locationSummary}>
-										<p>{location?.group}</p>
+										<p>{location.group}</p>
+										{location.status && (
+											<p>{LOCATION_STATUS[location.status].displayText}</p>
+										)}
 									</span>
 
 									<span className={styles.locationDescription}>
-										<p>{location?.description}</p>
+										<p>{location.description}</p>
 									</span>
 								</Popup>
 							</CircleMarker>
