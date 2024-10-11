@@ -16,6 +16,8 @@ import { useLocations } from "@/shared/hooks";
 
 import styles from "./MapFragment.module.scss";
 import {
+
+	LOCATION_STATUS,
 	LOCATION_TYPE,
 	MAP_RELATION,
 } from "@/shared/constants";
@@ -99,15 +101,19 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 								center={[location.position.lat * 1, location.position.lng * 1]}
 							>
 								<Popup>
+
 									<h3>{location?.name}</h3>
 									<p>{LOCATION_TYPE[location.locationType]?.displayText}</p>
 
 									<span className={styles.locationSummary}>
-										<p>{location?.group}</p>
+										<p>{location.group}</p>
+										{location.status && (
+											<p>{LOCATION_STATUS[location.status].displayText}</p>
+										)}
 									</span>
 
 									<span className={styles.locationDescription}>
-										<p>{location?.description}</p>
+										<p>{location.description}</p>
 									</span>
 								</Popup>
 							</CircleMarker>
