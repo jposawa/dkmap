@@ -78,17 +78,17 @@ export const LocationModal: React.FC<LocationModalProps> = ({
 			<div className={`${styles.modalBody} ${className}`} style={style}>
 				<form onSubmit={handleSubmit} ref={formRef}>
 					<p>
-						<label htmlFor="placeName">Nome*</label>
+						<label htmlFor="placeName">Name*</label>
 						<input
 							id="placeName"
 							name="placeName"
-							placeholder="Nome local"
+							placeholder="Local name"
 							required
 						/>
 					</p>
 
 					<p>
-						<label htmlFor="locationTypeKey">Tipo</label>
+						<label htmlFor="locationTypeKey">Type</label>
 						<select id="locationTypeKey" name="locationTypeKey">
 							{Object.keys(LOCATION_TYPE).map((type) => (
 								<option key={type} value={type}>
@@ -99,8 +99,8 @@ export const LocationModal: React.FC<LocationModalProps> = ({
 					</p>
 
 					<p>
-						<label htmlFor="group">Grupo</label>
-						<input id="group" name="group" placeholder="Grupo pertencente" />
+						<label htmlFor="group">Faction</label>
+						<input id="group" name="group" placeholder="Faction or group" />
 					</p>
 
 					<p>

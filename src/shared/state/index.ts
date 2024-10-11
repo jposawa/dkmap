@@ -31,7 +31,7 @@ export const editModeState = atom<boolean>({
 
 export const currentMapState = atom<MapKey>({
 	key: withNamespace("currentMap"),
-	default: "voador",
+	default: "petia",
 });
 
 export const screenCursorInfoState = atom<{

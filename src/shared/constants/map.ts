@@ -30,29 +30,29 @@ export const MAP_RELATION: MapRelation = {
 export const LOCATION_TYPE: LocationType = {
 	urban: {
 		id: "urban",
-		displayText: "Assentamento",
+		displayText: "Settlement",
 	},
 	landmark: {
 		id: "landmark",
-		displayText: "Referência",
+		displayText: "Landmark",
 	},
 	interestPoint: {
 		id: "interestPoint",
-		displayText: "Ponto de Interesse",
+		displayText: "Point of Interest",
 	},
 };
 
 export const LOCATION_STATUS: LocationStatus = {
 	boom: {
 		id: "boom",
-		displayText: "Destaque",
+		displayText: "Boom",
 	},
 	neutral: {
 		id: "neutral",
-		displayText: "Estável",
+		displayText: "Stable",
 	},
 	fading: {
 		id: "fading",
-		displayText: "Decaindo",
+		displayText: "Fading",
 	},
 };
