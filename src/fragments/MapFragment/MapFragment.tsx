@@ -16,6 +16,7 @@ import { useLocations } from "@/shared/hooks";
 
 import styles from "./MapFragment.module.scss";
 import {
+
 	LOCATION_STATUS,
 	LOCATION_TYPE,
 	MAP_RELATION,
@@ -81,7 +82,7 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 					style={style}
 					ref={setMap}
 					bounds={bounds}
-					maxBounds={bounds}
+					// maxBounds={bounds}
 					crs={CRS.Simple}
 					zoomSnap={0.01}
 					zoomDelta={0.01}
@@ -100,8 +101,9 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 								center={[location.position.lat * 1, location.position.lng * 1]}
 							>
 								<Popup>
-									<h3>{location.name}</h3>
-									<p>{LOCATION_TYPE[location.locationType].displayText}</p>
+
+									<h3>{location?.name}</h3>
+									<p>{LOCATION_TYPE[location.locationType]?.displayText}</p>
 
 									<span className={styles.locationSummary}>
 										<p>{location.group}</p>
