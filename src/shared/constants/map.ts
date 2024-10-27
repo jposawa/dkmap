@@ -1,3 +1,4 @@
+import { LatLngBoundsExpression } from "leaflet";
 import { LocationType, MapRelation, LocationStatus } from "../types";
 
 export const MAP_RELATION: MapRelation = {
@@ -56,3 +57,8 @@ export const LOCATION_STATUS: LocationStatus = {
 		displayText: "Fading",
 	},
 };
+
+export const DEFAULT_BOUNDS: LatLngBoundsExpression = [
+	[-120, -250],
+	[120, 250],
+];

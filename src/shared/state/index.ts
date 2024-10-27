@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 import { withNamespace } from "../utils";
-import { Location, MapKey } from "../types";
+import { Location, MapKey, MapSettings } from "../types";
 import { FirebaseApp } from "firebase/app";
 import { LatLng } from "leaflet";
 
@@ -52,4 +52,9 @@ export const screenCursorInfoState = atom<{
 export const selectedLocationState = atom<LatLng | null | undefined>({
 	key: withNamespace("selectedLocation"),
 	default: undefined,
+});
+
+export const mapSettingsAtom = atom<MapSettings | object>({
+	key: withNamespace("mapSettings"),
+	default: {},
 });

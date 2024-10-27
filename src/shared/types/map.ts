@@ -1,4 +1,4 @@
-import { LatLng } from "leaflet";
+import { LatLng, LatLngBoundsExpression } from "leaflet";
 
 export type MapKey = "voador" | "continente" | "central" | "petia";
 
@@ -39,3 +39,10 @@ export type RelationItem = {
 };
 
 export type MapRelation = Record<MapKey, RelationItem>;
+
+export type MapSettings = {
+  id: string;
+  mapKey: MapKey;
+  mapUrl: string;
+  bounds: LatLngBoundsExpression;
+}
