@@ -23,7 +23,11 @@ export const useDkMap = () => {
 					settings.bounds = settings?.bounds ?? DEFAULT_BOUNDS;
 					settings.mapUrl = settings?.mapUrl ?? getLocalMapUrl(mapKey);
 
-					setMapSettings(settings);
+					setIsLoading(() => {
+						setMapSettings(settings);
+
+						return false;
+					});
 				});
 			}
 		},

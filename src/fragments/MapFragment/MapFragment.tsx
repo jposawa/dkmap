@@ -35,7 +35,11 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 	const isEditMode = useRecoilValue(editModeState);
 	const [map, setMap] = React.useState<Map | null>(null);
 	const [locations, setLocations] = React.useState<Location[]>([]);
-	const { isLoading, getLocationsList, setIsLoading } = useLocations();
+	const {
+		isLoading: loadingLocations,
+		getLocationsList,
+		setIsLoading,
+	} = useLocations();
 	const [locationsList, setLocationsList] = useRecoilState(locationsListState);
 	// const bounds: LatLngBoundsExpression = [
 	// 	[-120, -250],
@@ -43,7 +47,12 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 	// ];
 	const mapSettings = useRecoilValue(mapSettingsAtom);
 	const currentMapKey = useRecoilValue(currentMapState);
-	const { getMapSettings } = useDkMap();
+	const { isLoading: loadingSettings, getMapSettings } = useDkMap();
+
+	const isLoading = React.useMemo(
+		() => loadingLocations || loadingSettings,
+		[loadingLocations, loadingSettings]
+	);
 
 	React.useEffect(() => {
 		const _locations = Object.values(locationsList);
@@ -106,7 +115,9 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 					zoomDelta={0.01}
 				>
 					<MapEvents className={isEditMode ? styles.editMode : ""} />
-					<ImageOverlay url={mapActiveUrl} bounds={mapActiveBounds} />
+					{!isLoading && (
+						<ImageOverlay url={mapActiveUrl} bounds={mapActiveBounds} />
+					)}
 
 					{locations.map((location: Location) => {
 						return (
@@ -141,6 +152,16 @@ export const MapFragment: React.FC<MapFragmentProps> = ({
 			</section>
 		),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[className, currentMapKey, locations, map, style, isEditMode]
+		[
+			className,
+			currentMapKey,
+			locations,
+			map,
+			style,
+			isEditMode,
+			mapSettings,
+			mapActiveBounds,
+			mapActiveUrl,
+		]
 	);
 };
